@@ -1,4 +1,4 @@
-package com.tajprod.prophesee.controllers;
+package com.tajprod.prophesee.controllers.media;
 
 import com.tajprod.prophesee.models.media.Media;
 import com.tajprod.prophesee.models.platform.Platform;
