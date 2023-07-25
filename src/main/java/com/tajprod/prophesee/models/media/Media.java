@@ -26,12 +26,12 @@ public class Media {
   @JoinColumn(name = "platform_id")
   private Platform platform;
 
-  private boolean isWatching;
+  private boolean isWatching = true;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date startDate;
 
-  private boolean finishedWatching;
+  private boolean finishedWatching = false;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date finishDate;

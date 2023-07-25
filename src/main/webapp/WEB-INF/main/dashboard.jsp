@@ -20,11 +20,10 @@
   <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
   <script type="text/javascript" src="/js/app.js"></script>
   
-  <%-- TODO: PAGE TITLE --%>
-  <title>Title</title>
+  <title>PropheSee - Dashboard</title>
 </head>
 <body>
-<!-- Active user navbar START -->
+<!-- Navbar START -->
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand fs-3" href="/dashboard">PropheSee</a>
@@ -58,27 +57,34 @@
           </a>
           <!-- Your Platforms dropdown list START -->
           <ul class="dropdown-menu">
-            <!-- TODO: Platforms dropdown menu items -->
+            <c:forEach var="platform" items="${platforms}">
+              <!-- TODO: Platform hrefs -->
+              <li>
+                <a href="#" class="dropdown-item">
+                    ${platform.name}
+                </a>
+              </li>
+            </c:forEach>
             <li>
-              <a class="dropdown-item" href="#">Action</a>
+              <hr class="dropdown-divider">
             </li>
             <li>
-              <a class="dropdown-item" href="#">Another action</a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">Yet another action</a>
+              <a href="/watchlist/platforms/new" class="dropdown-item text-success">
+                Add New Platform
+              </a>
             </li>
           </ul>
         </li>
         <!-- Your Platforms dropdown END -->
         
         <!-- Edit Profile nav item START -->
+        <%-- TODO: Edit Profile href --%>
         <li class="nav-item">
           <a class="nav-link" href="#">Edit Profile</a>
         </li>
       </ul>
       
-      <!-- TODO: About link/href -->
+      <!-- TODO: About href -->
       <a class="nav-link mx-3" aria-current="page" href="#">About</a>
       <a class="btn btn-danger" href="/logout" role="button">Log Out</a>
     </div>
@@ -90,67 +96,71 @@
 <main class="container-fluid d-flex justify-content-between gap-5 p-4">
   <!-- Quick Add card START -->
   <div class="card col-lg-2 h-50 sticky-top z-0">
-    <!-- TODO: User's first name -->
-    <div class="card-header text-center"><h2>${username}'s Watchlist</h2></div>
-    <%-- TODO: Refactor form for JSP --%>
-    <form action="#" method="POST">
-      <div class="card-body">
-        <div>
-          <!-- TODO: Add media FORM ACTION here -->
-          <div class="mb-3">
-            <div class="d-flex justify-content-between align-items-end">
-              <label for="media_name" class="form-label"
-              >Media Name: *</label
-              >
-              <p class="text-decoration-underline fs-4">+ Quick Add</p>
-            </div>
-            <input
-                type="text"
-                id="media_name"
-                name="media_name"
-                class="form-control"
-            />
-          </div>
-          <div class="mb-3">
-            <select
-                name="category"
-                id="category"
-                class="form-select"
-            >
-              <option value="Category" selected>Category *</option>
-              <option value="Series">Series</option>
-              <option value="Movie/Documentary">Movie/Documentary</option>
-              <option value="Miscellaneous">Miscellaneous</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <select
-                name="platform_name"
-                id="platform_name"
-                class="form-select"
-            >
-              <option value="Platform" selected>Platform *</option>
-              <!-- TODO: List all available platforms -->
-              <option value="Unlisted">Unlisted</option>
-            </select>
-          </div>
-        </div>
+    <div class="card-header text-center">
+      <h2>${username}'s Watchlist</h2>
+    </div>
+    <%-- TODO: Refactor Quick Add form for JSP --%>
+    <div class="card-body pt-1">
+      <div class="text-center">
+        <hr>
+        <p class="text-dark bg-white fs-5 mb-2 mt-0 shadow-lg">
+          Quick Add
+        </p>
+        <hr>
       </div>
-      <div class="card-footer">
-        <p class="d-flex justify-content-end">* Denotes required field</p>
-        <div class="d-flex justify-content-between align-items-end">
-          <a href="/dashboard" id="view_all_link">View all media</a>
-          <button
-              type="submit"
-              class="btn btn-success"
-              id="quick_add_submit_button"
-              disabled
-          >
-            Add Media
-          </button>
-        </div>
+      <div class="mb-3">
+        <form:form action="watchlist/quick-add/new" method="post" modelAttribute="media">
+        <form:label path="title" class="form-label">
+          Media Name: *
+        </form:label>
+        <form:input path="title" class="form-control"/>
+        <p class="text-danger">
+          <form:errors path="title"/>
+        </p>
       </div>
-    </form>
+      <div class="mb-3">
+        <form:select
+            path="category"
+            class="form-select"
+        >
+          <form:option value="" selected="true">Category *</form:option>
+          <form:option value="Series">Series</form:option>
+          <form:option value="Movie/Documentary">Movie/Documentary</form:option>
+          <form:option value="Miscellaneous">Miscellaneous</form:option>
+        </form:select>
+        <p class="text-danger">
+          <form:errors path="category"/>
+        </p>
+      </div>
+      <div class="mb-3">
+        <form:select
+            path="platform"
+            class="form-select"
+        >
+          <form:option value="" selected="true">
+            Platform *
+          </form:option>
+          <c:forEach var="platform" items="${platforms}">
+            <form:option value="${platform.id}">
+              ${platform.name}
+            </form:option>
+          </c:forEach>
+        </form:select>
+        <p class="text-danger">
+          <form:errors path="platform"/>
+        </p>
+      </div>
+    </div>
+    <div class="card-footer">
+      <p class="d-flex justify-content-end">* Denotes required field</p>
+      <div class="d-flex justify-content-between align-items-end">
+        <a href="/dashboard" id="view_all_link">View all media</a>
+        <button type="submit" class="btn btn-success">
+          Add Media
+        </button>
+      </div>
+    </div>
+    </form:form>
   </div>
   <!-- Quick Add card END -->
   
@@ -341,6 +351,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous">
+</script>
 </body>
 </html>

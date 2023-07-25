@@ -2,7 +2,6 @@ package com.tajprod.prophesee.services.user;
 
 import com.tajprod.prophesee.models.user.LoginUser;
 import com.tajprod.prophesee.models.user.User;
-import com.tajprod.prophesee.models.watchlist.Watchlist;
 import com.tajprod.prophesee.repositories.user.UserRepository;
 import com.tajprod.prophesee.services.watchlist.WatchlistService;
 import org.mindrot.jbcrypt.BCrypt;
@@ -83,13 +82,6 @@ public class UserService {
     // Use BCrypt to hash the password before saving the new user
     String hashedPassword = BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt());
     newUser.setPassword(hashedPassword);
-
-    // Instantiate a watchlist and assign it to the new user
-    Watchlist newWatchlist = watchlistService.createNewWatchlist(new Watchlist());
-    newWatchlist.setUser(newUser);
-    watchlistService.updateWatchlist(newWatchlist);
-
-    newUser.setWatchlist(newWatchlist);
 
     return userRepository.save(newUser);
   }

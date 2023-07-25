@@ -2,7 +2,9 @@ package com.tajprod.prophesee.controllers.main;
 
 import com.tajprod.prophesee.models.user.LoginUser;
 import com.tajprod.prophesee.models.user.User;
+import com.tajprod.prophesee.models.watchlist.Watchlist;
 import com.tajprod.prophesee.services.user.UserService;
+import com.tajprod.prophesee.services.watchlist.WatchlistService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class MainController {
   @Autowired
   private UserService userService;
+
+  @Autowired
+  private WatchlistService watchlistService;
 
   // *** LOGIN AND REGISTRATION ROUTE ***
   @GetMapping("/")
@@ -46,6 +51,11 @@ public class MainController {
 
       return "main/loginReg.jsp";
     }
+    // Instantiate a watchlist and assign it to the new user
+    Watchlist newWatchlist = watchlistService.createNewWatchlist(new Watchlist());
+    newWatchlist.setUser(user);
+    user.setWatchlist(watchlistService.updateWatchlist(newWatchlist));
+    watchlistService.createDefaultPlatform(user.getWatchlist());
 
     session.setAttribute("userId", user.getId());
 

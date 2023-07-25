@@ -30,21 +30,21 @@ public class WatchlistService {
   }
 
   public Watchlist createNewWatchlist(Watchlist watchlist) {
-    // Instantiate the default "Unlisted" platform and add it to the watchlist's platform list
-    Platform defaultPlatform = platformService.savePlatform(new Platform());
-    defaultPlatform.setName("Unlisted");
-    defaultPlatform.setWatchlist(watchlist);
-    platformService.savePlatform(defaultPlatform);
-
     watchlist.setPlatforms(new ArrayList<>());
-    watchlist.getPlatforms().add(defaultPlatform);
 
     return watchlistRepository.save(watchlist);
   }
 
-  public Watchlist addPlatformToWatchlist(Watchlist watchlist, Platform platform) {
+  public void createDefaultPlatform(Watchlist watchlist) {
+    Platform unlistedPlatform = new Platform();
+    unlistedPlatform.setName("Unlisted");
+    unlistedPlatform.setWatchlist(watchlist);
+    watchlist.getPlatforms().add(platformService.updatePlatform(unlistedPlatform));
+  }
+
+  public Watchlist addNewPlatformToWatchlist(Watchlist watchlist, Platform platform) {
     platform.setWatchlist(watchlist);
-    platformService.savePlatform(platform);
+    platformService.updatePlatform(platform);
 
     watchlist.getPlatforms().add(platform);
 

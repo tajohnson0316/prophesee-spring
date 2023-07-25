@@ -62,4 +62,12 @@ public class Platform {
   public void setWatchlist(Watchlist watchlist) {
     this.watchlist = watchlist;
   }
+
+  public List<Media> getMediaList() {
+    return mediaList;
+  }
+
+  public void setMediaList(List<Media> mediaList) {
+    this.mediaList = mediaList;
+  }
 }

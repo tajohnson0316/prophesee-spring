@@ -1,8 +1,10 @@
 package com.tajprod.prophesee.controllers.watchlist;
 
+import com.tajprod.prophesee.models.media.Media;
 import com.tajprod.prophesee.models.platform.Platform;
 import com.tajprod.prophesee.models.user.User;
 import com.tajprod.prophesee.models.watchlist.Watchlist;
+import com.tajprod.prophesee.services.platform.PlatformService;
 import com.tajprod.prophesee.services.user.UserService;
 import com.tajprod.prophesee.services.watchlist.WatchlistService;
 import jakarta.servlet.http.HttpSession;
@@ -23,12 +25,19 @@ public class WatchlistController {
   private UserService userService;
 
   @Autowired
+  private PlatformService platformService;
+
+  @Autowired
   private WatchlistService watchlistService;
 
   //  =============== GET ROUTES ===============
 
   @GetMapping("/dashboard")
-  public String dashboard(Model model, HttpSession session) {
+  public String dashboard(
+    @ModelAttribute("media") Media media,
+    Model model,
+    HttpSession session
+  ) {
     if (session.getAttribute("userId") == null) {
       return "redirect:/logout";
     }
@@ -46,17 +55,49 @@ public class WatchlistController {
     return "main/dashboard.jsp";
   }
 
+  @GetMapping("/watchlist/platforms/new")
+  public String displayPlatformForm(
+    @ModelAttribute("platform") Platform platform,
+    HttpSession session,
+    Model model
+  ) {
+    if (session.getAttribute("userId") == null) {
+      return "redirect:/logout";
+    }
+
+    UUID userId = (UUID) session.getAttribute("userId");
+    if (!userService.isValidId(userId)) {
+      return "redirect:/logout";
+    }
+    model.addAttribute("userId", userId);
+
+    User user = userService.getUserById(userId);
+    model.addAttribute("platforms", user.getWatchlist().getPlatforms());
+
+    return "platform/platformForm.jsp";
+  }
+
   //  =============== POST ROUTES ===============
 
   @PostMapping
-  public String createNewPlatform(
+  public String addNewPlatform(
     @Valid @ModelAttribute("platform") Platform platform,
     BindingResult result,
     HttpSession session,
     Model model
   ) {
-    // TODO:
-    return null;
+    UUID userId = (UUID) session.getAttribute("userId");
+
+    if (result.hasErrors()) {
+      model.addAttribute("platform", platform);
+      model.addAttribute("userId", userId);
+      User user = userService.getUserById(userId);
+      model.addAttribute("platforms", user.getWatchlist().getPlatforms());
+
+      return "platform/platformForm.jsp";
+    }
+    Platform newPlatform = platformService.updatePlatform(platform);
+    return String.format("redirect:/watchlist/platforms/%d", newPlatform.getId());
   }
 
   //  =============== PUT ROUTES ===============
