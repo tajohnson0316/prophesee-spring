@@ -16,7 +16,7 @@ public class PlatformService {
     return platformRepository.findAllByWatchlist_Id(watchlistId);
   }
 
-  public Platform createNewPlatform(Platform platform) {
+  public Platform savePlatform(Platform platform) {
     return platformRepository.save(platform);
   }
 }

@@ -87,6 +87,8 @@ public class UserService {
     // Instantiate a watchlist and assign it to the new user
     Watchlist newWatchlist = watchlistService.createNewWatchlist(new Watchlist());
     newWatchlist.setUser(newUser);
+    watchlistService.updateWatchlist(newWatchlist);
+
     newUser.setWatchlist(newWatchlist);
 
     return userRepository.save(newUser);
