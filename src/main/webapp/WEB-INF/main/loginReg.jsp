@@ -33,12 +33,12 @@
         <form:form action="/users/register" method="post" modelAttribute="newUser">
           <!-- Username -->
           <div class="mb-3">
-            <form:label path="userName" class="form-label">
+            <form:label path="username" class="form-label">
               Username:
             </form:label>
-            <form:input path="userName" class="form-control"/>
+            <form:input path="username" class="form-control"/>
             <p class="text-danger">
-              <form:errors path="userName"/>
+              <form:errors path="username"/>
             </p>
           </div>
           <!-- Email -->

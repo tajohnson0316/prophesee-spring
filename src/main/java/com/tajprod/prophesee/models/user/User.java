@@ -17,22 +17,22 @@ public class User {
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
-  @NotBlank(message = "Username is required!")
+  @NotBlank(message = "Username is required")
   @Size(min = 3, max = 30, message = "Username must be between 3 and 30 characters")
-  private String userName;
+  private String username;
 
   @Column(unique = true)
-  @NotBlank(message = "Email is required!")
+  @NotBlank(message = "Email is required")
   @Email(message = "Please enter a valid email")
   private String email;
 
-  @NotBlank(message = "Password is required!")
-  @Size(message = "Password must be between 8 and 128 characters")
+  @NotBlank(message = "Password is required")
+  @Size(min = 8, max = 128, message = "Password must be between 8 and 128 characters")
   private String password;
 
   @Transient
-  @NotBlank(message = "Password confirmation is required!")
-  @Size(min = 8, max = 128, message = "Passwords must match")
+  @NotBlank(message = "Password confirmation is required")
+  @Size(min = 8, max = 128, message = "Password must be between 8 and 128 characters")
   private String confirmPassword;
 
   @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -66,12 +66,12 @@ public class User {
     this.id = id;
   }
 
-  public String getUserName() {
-    return userName;
+  public String getUsername() {
+    return username;
   }
 
-  public void setUserName(String userName) {
-    this.userName = userName;
+  public void setUsername(String userName) {
+    this.username = userName;
   }
 
   public String getEmail() {
