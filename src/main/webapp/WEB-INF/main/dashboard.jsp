@@ -210,7 +210,9 @@
             <a href="#" class="nav-link active">Unlisted</a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">( + )</a>
+            <button type="button" class="btn btn-link text-decoration-none">
+              ( + )
+            </button>
           </li>
         </ul>
       </div>
