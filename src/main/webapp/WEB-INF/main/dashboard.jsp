@@ -18,6 +18,7 @@
 <html data-bs-theme="dark">
 <head>
   <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <script type="text/javascript" src="/js/app.js"></script>
   
   <title>PropheSee - Dashboard</title>
@@ -103,7 +104,7 @@
     <div class="card-body pt-1">
       <div class="text-center">
         <hr>
-        <p class="text-dark bg-white fs-5 mb-2 mt-0 shadow-lg">
+        <p class="text-light-emphasis bg-success fs-5 mb-2 mt-0 shadow-lg border border-2 border-black">
           Quick Add
         </p>
         <hr>
@@ -168,11 +169,11 @@
     <div class="d-flex justify-content-between">
       <div>
         <h1>
-          <!-- TODO: Current tab name instead of "unlisted" -->
+          <!-- TODO: Current tab name instead of "Hulu" -->
           <!-- TODO: Current tab href here -->
-          <a class="text-decoration-none" href="#"
-          >Unlisted</a
-          >
+          <a class="text-decoration-none" href="/dashboard">
+            Hulu
+          </a>
           - Sneak Peek
         </h1>
       </div>
@@ -180,175 +181,280 @@
         <!--TODO: Add media to platform button href here -->
         <!--TODO: Add media to "Platform Name" button href here -->
         <a
-            href="#"
+            href=""
             class="btn btn-outline-success text-wrap"
             role="button"
-        >Add new media to Unlisted</a
+        >
+          Add new media to Hulu
+        </a
         >
       </div>
     </div>
     <!-- Dashboard card START -->
     <div class="card">
-      <!-- Dashboard header START -->
-      <div class="card-header">
-        <ul class="nav nav-tabs card-header-tabs justify-content-start">
+      <div class="card-body">
+        <ul class="nav nav-tabs" id="platformTabs" role="tablist">
           <!-- TODO: List user's platforms -->
-          <!-- TODO: Dashboard card tabs hrefs here -->
-          <li class="nav-item">
-            <a href="#" class="nav-link">Home</a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">Hulu</a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">Netflix</a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">Disney+</a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link active">Unlisted</a>
-          </li>
-          <li class="nav-item">
-            <button type="button" class="btn btn-link text-decoration-none">
-              ( + )
+          <!-- TODO: Dashboard card tabs content goes here -->
+          <li class="nav-item" role="presentation">
+            <%-- TODO: SET ID TO PLATFORM ID --%>
+            <button
+                class="nav-link"
+                id="home-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#home-tab-pane"
+                role="tab"
+            >
+              Home
             </button>
           </li>
-        </ul>
-      </div>
-      <!-- Dashboard header END -->
-      
-      <!-- Dashboard body START -->
-      <div class="card-body">
-        <!-- 1st row START -->
-        <div class="row">
-          <div class="d-flex justify-content-around gap-3 p-2">
-            <!-- Recently Added table START -->
-            <div class="col-lg-5">
-              <h3>Recently Added</h3>
-              <table
-                  class="table table-hover table-bordered table-striped table-fixed"
-              >
-                <thead>
-                <tr>
-                  <th></th>
-                  <th scope="col">Title</th>
-                  <th scope="col">Added</th>
-                  <th scope="col">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- TODO: List user's platform media -->
-                <tr>
-                  <th scope="row">1</th>
-                  <td>District 9</td>
-                  <td>2023-04-27</td>
-                  <td>
-                    <div class="d-flex justify-content-center gap-3">
-                      <a href="#">View</a>
-                      <span> | </span>
-                      <a href="#">Edit</a>
-                      <span> | </span>
-                      <a href="#">To Platform</a>
-                    </div>
-                  </td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
-            <!-- Recently Added table END -->
+          <li class="nav-item" role="presentation">
+            <button
+                class="nav-link active"
+                id="hulu-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#hulu-tab-pane"
+                role="tab"
+            >
+              Hulu
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+                class="nav-link"
+                id="netflix-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#netflix-tab-pane"
+                role="tab"
+            >
+              Netflix
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+                class="nav-link"
+                id="disney-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#disney-tab-pane"
+                role="tab"
+            >
+              Disney+
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+                class="nav-link"
+                id="unlisted-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#unlisted-tab-pane"
+                role="tab"
+            >
+              Unlisted
+            </button>
+          </li>
+          
+          <%-- Add New Platform Tab-button START --%>
+          <li class="nav-item">
+            <button
+                type="button"
+                class="btn btn-link text-decoration-none text-success-emphasis pt-2"
+                data-bs-toggle="modal"
+                data-bs-target="#platformFormModal"
+            >
+              <i class="bi bi-plus-circle fs-5"></i>
+            </button>
             
-            <!-- Recently Added table START -->
-            <div class="col-lg-5">
-              <h3>Currently Watching</h3>
-              <table
-                  class="table table-hover table-bordered table-striped table-fixed"
-              >
-                <thead>
-                <tr>
-                  <th></th>
-                  <th scope="col">Title</th>
-                  <th scope="col">Last Updated</th>
-                  <th scope="col">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- TODO: List user's platform media -->
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Chainsaw Man</td>
-                  <td>2023-04-27</td>
-                  <td>
-                    <div class="d-flex justify-content-center gap-3">
-                      <a href="#">View</a>
-                      <span> | </span>
-                      <a href="#">Edit</a>
-                      <span> | </span>
-                      <a href="#">To Platform</a>
+            <div class="modal fade" id="platformFormModal" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5">Add New Platform</h1>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal"></button>
+                  </div>
+                  <%-- TODO: PLATFORM FORM MODAL ACTION ROUTE --%>
+                  <form:form action="/watchlist/platforms/new" method="post" modelAttribute="platform">
+                    <div class="modal-body">
+                      <div class="mb-3">
+                        <form:label path="name" class="form-label">
+                          Platform name: *
+                        </form:label>
+                        <form:input class="form-control" path="name"/>
+                        <p class="text-danger">
+                          <form:errors path="name"/>
+                        </p>
+                      </div>
+                      <div class="mb-3">
+                        <form:label path="siteUrl" class="form-label">
+                          Link to Homepage:
+                        </form:label>
+                        <form:input class="form-control" path="siteUrl"/>
+                        <p class="text-danger">
+                          <form:errors path="siteUrl"/>
+                        </p>
+                      </div>
                     </div>
-                  </td>
-                </tr>
-                </tbody>
-              </table>
+                    <div class="d-flex justify-content-end mx-3">
+                      <p>
+                        * Denotes required field
+                      </p>
+                    </div>
+                    <div class="modal-footer">
+                      <div class="d-flex justify-content-end gap-3">
+                        <button type="submit" class="btn btn-success">
+                          Add platform
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </form:form>
+                </div>
+              </div>
             </div>
-            <!-- Recently Added table END -->
-          </div>
-        </div>
-        <!-- Card body 1st row END -->
+          </li>
+          <%-- Add New Platform Tab-button START --%>
         
-        <!-- Card body 2nd row START -->
-        <div class="row">
-          <div class="d-flex justify-content-around gap-3 p-2">
-            <div class="col-lg-12">
-              <h3>Completed</h3>
-              <table
-                  class="table table-hover table-bordered table-striped table-fixed"
-              >
-                <thead>
-                <tr>
-                  <th></th>
-                  <th scope="col">Title</th>
-                  <th scope="col">Added</th>
-                  <th class="col-lg-2" scope="col">Actions</th>
-                  <th scope="col">Completed</th>
-                  <th class="col-lg-5" scope="col">Notes</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- TODO: List user's platform media -->
-                <tr>
-                  <th scope="row">1</th>
-                  <td>That Time I Got Reincarnated as a Slime</td>
-                  <td>2023-04-27</td>
-                  <td>
-                    <div class="d-flex justify-content-center gap-3">
-                      <a href="#">View</a>
-                      <span> | </span>
-                      <a href="#">Edit</a>
-                      <span> | </span>
-                      <a href="#">To Platform</a>
-                    </div>
-                  </td>
-                  <td>2023-04-27</td>
-                  <td>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing
-                    elit. Fugit sit totam tenetur, laudantium eius, fuga
-                    quae reprehenderit illo minus, recusandae eum minima
-                    error! Corrupti, perspiciatis sequi? Dolorum
-                    quibusdam in amet.
-                  </td>
-                </tr>
-                </tbody>
-              </table>
+        </ul>
+        <%-- Tab-content START --%>
+        <div class="tab-content" id="platformTabContent">
+          <div
+              class="tab-pane fade show active"
+              id="home-tab-pane"
+              role="tabpanel"
+              tabindex="0"
+          >
+            <!-- Tab-content body START -->
+            <!-- 1st row START -->
+            <div class="row">
+              <div class="d-flex justify-content-around gap-3 p-2">
+                <!-- Recently Added table START -->
+                <div class="col-lg-5">
+                  <h3>Recently Added</h3>
+                  <table
+                      class="table table-hover table-bordered table-striped table-fixed"
+                  >
+                    <thead>
+                    <tr>
+                      <th></th>
+                      <th scope="col">Title</th>
+                      <th scope="col">Added</th>
+                      <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- TODO: List user's platform media -->
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>District 9</td>
+                      <td>2023-04-27</td>
+                      <td>
+                        <div class="d-flex justify-content-center gap-3">
+                          <a href="#">View</a>
+                          <span> | </span>
+                          <a href="#">Edit</a>
+                          <span> | </span>
+                          <a href="#">To Platform</a>
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- Recently Added table END -->
+                
+                <!-- Recently Added table START -->
+                <div class="col-lg-5">
+                  <h3>Currently Watching</h3>
+                  <table
+                      class="table table-hover table-bordered table-striped table-fixed"
+                  >
+                    <thead>
+                    <tr>
+                      <th></th>
+                      <th scope="col">Title</th>
+                      <th scope="col">Last Updated</th>
+                      <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- TODO: List user's platform media -->
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>Chainsaw Man</td>
+                      <td>2023-04-27</td>
+                      <td>
+                        <div class="d-flex justify-content-center gap-3">
+                          <a href="#">View</a>
+                          <span> | </span>
+                          <a href="#">Edit</a>
+                          <span> | </span>
+                          <a href="#">To Platform</a>
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- Recently Added table END -->
+              </div>
             </div>
+            <!-- Card body 1st row END -->
+            
+            <!-- Card body 2nd row START -->
+            <div class="row">
+              <div class="d-flex justify-content-around gap-3 p-2">
+                <div class="col-lg-12">
+                  <h3>Completed</h3>
+                  <table
+                      class="table table-hover table-bordered table-striped table-fixed"
+                  >
+                    <thead>
+                    <tr>
+                      <th></th>
+                      <th scope="col">Title</th>
+                      <th scope="col">Added</th>
+                      <th class="col-lg-2" scope="col">Actions</th>
+                      <th scope="col">Completed</th>
+                      <th class="col-lg-5" scope="col">Notes</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- TODO: List user's platform media -->
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>That Time I Got Reincarnated as a Slime</td>
+                      <td>2023-04-27</td>
+                      <td>
+                        <div class="d-flex justify-content-center gap-3">
+                          <a href="#">View</a>
+                          <span> | </span>
+                          <a href="#">Edit</a>
+                          <span> | </span>
+                          <a href="#">To Platform</a>
+                        </div>
+                      </td>
+                      <td>2023-04-27</td>
+                      <td>
+                        Lorem, ipsum dolor sit amet consectetur adipisicing
+                        elit. Fugit sit totam tenetur, laudantium eius, fuga
+                        quae reprehenderit illo minus, recusandae eum minima
+                        error! Corrupti, perspiciatis sequi? Dolorum
+                        quibusdam in amet.
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <!-- Card body 2nd row END -->
+            <!-- Tab-content body END -->
+            <!-- Dashboard card END -->
           </div>
         </div>
-        <!-- Card body 2nd row END -->
       </div>
-      <!-- Dashboard body END -->
     </div>
   </div>
-  <!-- Dashboard card END -->
+  <!-- Dashboard header END -->
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"

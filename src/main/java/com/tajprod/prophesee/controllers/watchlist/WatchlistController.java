@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.UUID;
 
+@SuppressWarnings("DuplicatedCode")
 @Controller
 public class WatchlistController {
   @Autowired
@@ -35,6 +36,7 @@ public class WatchlistController {
   @GetMapping("/dashboard")
   public String dashboard(
     @ModelAttribute("media") Media media,
+    @ModelAttribute("platform") Platform platform,
     Model model,
     HttpSession session
   ) {
@@ -55,7 +57,7 @@ public class WatchlistController {
     return "main/dashboard.jsp";
   }
 
-  @GetMapping("/watchlist/platforms/new")
+  @GetMapping("/watchlist/platforms/add")
   public String displayPlatformForm(
     @ModelAttribute("platform") Platform platform,
     HttpSession session,
@@ -79,7 +81,7 @@ public class WatchlistController {
 
   //  =============== POST ROUTES ===============
 
-  @PostMapping
+  @PostMapping("/watchlist/platforms/new")
   public String addNewPlatform(
     @Valid @ModelAttribute("platform") Platform platform,
     BindingResult result,

@@ -13,11 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.UUID;
 
+@SuppressWarnings("DuplicatedCode")
 @Controller
 public class MediaController {
   @Autowired
@@ -30,6 +32,29 @@ public class MediaController {
   private MediaService mediaService;
 
   //  =============== GET ROUTES ===============
+
+  @GetMapping("/watchlist/media/add")
+  public String displayNewMediaForm(
+    @ModelAttribute("media") Media media,
+    HttpSession session,
+    Model model
+  ) {
+    if (session.getAttribute("userId") == null) {
+      return "redirect:/logout";
+    }
+
+    UUID userId = (UUID) session.getAttribute("userId");
+    if (!userService.isValidId(userId)) {
+      return "redirect:/logout";
+    }
+    model.addAttribute("userId", userId);
+
+    User user = userService.getUserById(userId);
+    model.addAttribute("platforms", user.getWatchlist().getPlatforms());
+
+    // TODO: Media form jsp
+    return "media/mediaForm.jsp";
+  }
 
   //  =============== POST ROUTES ===============
 
