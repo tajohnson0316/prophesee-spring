@@ -60,7 +60,7 @@
           </a>
           <!-- Your Platforms dropdown list START -->
           <ul class="dropdown-menu">
-            <c:forEach var="platform" items="${platforms}">
+            <c:forEach var="platform" items="${watchlist.platforms}">
               <!-- TODO: Platform hrefs -->
               <li>
                 <a href="#" class="dropdown-item">
@@ -71,6 +71,7 @@
             <li>
               <hr class="dropdown-divider">
             </li>
+            git
             <li>
               <a href="/watchlist/platforms/new" class="dropdown-item text-success">
                 Add New Platform
@@ -143,7 +144,7 @@
           <form:option value="" selected="true">
             Platform *
           </form:option>
-          <c:forEach var="platform" items="${platforms}">
+          <c:forEach var="platform" items="${watchlist.platforms}">
             <form:option value="${platform.id}">
               ${platform.name}
             </form:option>
@@ -186,6 +187,7 @@
             href="/watchlist/media/add"
             class="btn btn-outline-success text-wrap"
             role="button"
+            id="add_to_platform_button"
         >
           Add new media to Hulu
         </a
@@ -206,6 +208,7 @@
                 data-bs-toggle="tab"
                 data-bs-target="#home-tab-pane"
                 role="tab"
+                onclick="changeButtonText(this)"
             >
               Home
             </button>
@@ -274,13 +277,19 @@
                     <button class="btn-close" type="button" data-bs-dismiss="modal"></button>
                   </div>
                   <%-- TODO: PLATFORM FORM MODAL ACTION ROUTE --%>
-                  <form:form action="/watchlist/platforms/new" method="post" modelAttribute="platform">
+                  <form:form
+                      action="/watchlist/platforms/modal/new"
+                      method="post"
+                      modelAttribute="platform"
+                  >
+                    <form:input type="hidden" path="watchlist" value="${watchlist.id}"/>
                     <div class="modal-body">
                       <div class="mb-3">
+                          <%-- TODO: FORM VALIDATIONS FOR MODAL --%>
                         <form:label path="name" class="form-label">
                           Platform name: *
                         </form:label>
-                        <form:input class="form-control" path="name"/>
+                        <form:input type="text" class="form-control" path="name" minlength="1"/>
                         <p class="text-danger">
                           <form:errors path="name"/>
                         </p>
@@ -463,5 +472,10 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous">
 </script>
+<script type="text/javascript"
+        src="${pageContext.request.contextPath}/js/addMediaToPlatformButtonScript.js">
+
+</script>
+
 </body>
 </html>

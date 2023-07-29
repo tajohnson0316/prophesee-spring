@@ -51,8 +51,7 @@ public class WatchlistController {
 
     User user = userService.getUserById(userId);
     model.addAttribute("username", user.getUsername());
-    Watchlist watchlist = user.getWatchlist();
-    model.addAttribute("platforms", watchlist.getPlatforms());
+    model.addAttribute("watchlist", user.getWatchlist());
 
     return "main/dashboard.jsp";
   }
@@ -74,14 +73,14 @@ public class WatchlistController {
     model.addAttribute("userId", userId);
 
     User user = userService.getUserById(userId);
-    model.addAttribute("platforms", user.getWatchlist().getPlatforms());
+    model.addAttribute("watchlist", user.getWatchlist());
 
     return "platform/platformForm.jsp";
   }
 
   //  =============== POST ROUTES ===============
 
-  @PostMapping("/watchlist/platforms/new")
+  @PostMapping("/watchlist/platforms/modal/new")
   public String addNewPlatform(
     @Valid @ModelAttribute("platform") Platform platform,
     BindingResult result,
@@ -89,17 +88,20 @@ public class WatchlistController {
     Model model
   ) {
     UUID userId = (UUID) session.getAttribute("userId");
+    User user = userService.getUserById(userId);
+    Watchlist watchlist = user.getWatchlist();
 
     if (result.hasErrors()) {
       model.addAttribute("platform", platform);
       model.addAttribute("userId", userId);
-      User user = userService.getUserById(userId);
-      model.addAttribute("platforms", user.getWatchlist().getPlatforms());
+      model.addAttribute("watchlist", watchlist);
 
       return "platform/platformForm.jsp";
     }
-    Platform newPlatform = platformService.updatePlatform(platform);
-    return String.format("redirect:/watchlist/platforms/%d", newPlatform.getId());
+    Platform newPlatform = platformService.createNewPlatform(platform);
+    watchlistService.addNewPlatformToWatchlist(watchlist, newPlatform);
+
+    return "redirect:/dashboard";
   }
 
   //  =============== PUT ROUTES ===============

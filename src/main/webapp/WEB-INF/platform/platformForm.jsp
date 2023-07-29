@@ -56,7 +56,7 @@
           </a>
           <!-- Your Platforms dropdown list START -->
           <ul class="dropdown-menu">
-            <c:forEach var="platform" items="${platforms}">
+            <c:forEach var="platform" items="${watchlist.platforms}">
               <!-- TODO: Platform hrefs -->
               <li>
                 <a href="#" class="dropdown-item">
@@ -98,6 +98,7 @@
     <!-- TODO: Platform FORM ACTION here -->
     <!-- TODO: Refactor forM for JSP -->
     <form:form action="#" method="POST">
+      <form:input path="watchlist" value="${watchlist.id}"/>
       <div class="card-body" id="card_body">
         <div class="list-group list-group-flush">
           <div class="list-group-item">

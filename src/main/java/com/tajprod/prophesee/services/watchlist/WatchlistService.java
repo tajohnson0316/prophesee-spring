@@ -1,6 +1,7 @@
 package com.tajprod.prophesee.services.watchlist;
 
 import com.tajprod.prophesee.models.platform.Platform;
+import com.tajprod.prophesee.models.user.User;
 import com.tajprod.prophesee.models.watchlist.Watchlist;
 import com.tajprod.prophesee.repositories.watchlist.WatchlistRepository;
 import com.tajprod.prophesee.services.platform.PlatformService;
@@ -29,26 +30,23 @@ public class WatchlistService {
     return optional.orElse(null);
   }
 
-  public Watchlist createNewWatchlist(Watchlist watchlist) {
+  public Watchlist createNewWatchlist(User user, Watchlist watchlist) {
+    watchlist.setUser(user);
     watchlist.setPlatforms(new ArrayList<>());
+    watchlistRepository.save(watchlist);
+
+    Platform defaultPlatform = new Platform();
+    defaultPlatform.setName("Unlisted");
+    defaultPlatform.setWatchlist(watchlist);
+    watchlist.getPlatforms().add(platformService.createNewPlatform(defaultPlatform));
 
     return watchlistRepository.save(watchlist);
   }
 
-  public void createDefaultPlatform(Watchlist watchlist) {
-    Platform unlistedPlatform = new Platform();
-    unlistedPlatform.setName("Unlisted");
-    unlistedPlatform.setWatchlist(watchlist);
-    watchlist.getPlatforms().add(platformService.updatePlatform(unlistedPlatform));
-  }
+  public void addNewPlatformToWatchlist(Watchlist watchlist, Platform platform) {
+    watchlist.getPlatforms().add(0, platform);
 
-  public Watchlist addNewPlatformToWatchlist(Watchlist watchlist, Platform platform) {
-    platform.setWatchlist(watchlist);
-    platformService.updatePlatform(platform);
-
-    watchlist.getPlatforms().add(platform);
-
-    return updateWatchlist(watchlist);
+    updateWatchlist(watchlist);
   }
 
   public Watchlist updateWatchlist(Watchlist watchlist) {

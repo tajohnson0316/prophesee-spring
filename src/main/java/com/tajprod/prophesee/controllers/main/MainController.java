@@ -52,10 +52,9 @@ public class MainController {
       return "main/loginReg.jsp";
     }
     // Instantiate a watchlist and assign it to the new user
-    Watchlist newWatchlist = watchlistService.createNewWatchlist(new Watchlist());
-    newWatchlist.setUser(user);
-    user.setWatchlist(watchlistService.updateWatchlist(newWatchlist));
-    watchlistService.createDefaultPlatform(user.getWatchlist());
+    Watchlist newWatchlist = watchlistService.createNewWatchlist(user, new Watchlist());
+    user.setWatchlist(newWatchlist);
+    userService.updateUser(user);
 
     session.setAttribute("userId", user.getId());
 
