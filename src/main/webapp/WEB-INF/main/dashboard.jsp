@@ -71,7 +71,6 @@
             <li>
               <hr class="dropdown-divider">
             </li>
-            git
             <li>
               <a href="/watchlist/platforms/new" class="dropdown-item text-success">
                 Add New Platform
